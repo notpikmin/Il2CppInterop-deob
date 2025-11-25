@@ -56,6 +56,13 @@ public class TypeRewriteContext
             ComputedTypeSpecifics = TypeSpecifics.BlittableStruct;
         else if (OriginalType.HasGenericParameters())
             ComputedTypeSpecifics = TypeSpecifics.NonBlittableStruct; // not reference type, covered by first if
+
+
+        foreach (var attribute in OriginalType.CustomAttributes)
+        {
+            NewType.CustomAttributes.Add(new CustomAttribute(
+                attribute.Constructor,attribute.Signature));
+        }
     }
 
     // These are initialized in AddMembers, which is called from an early rewrite pass.
